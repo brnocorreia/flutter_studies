@@ -15,10 +15,6 @@ Future<Database> createDatabase() {
           "idTrans INTEGER PRIMARY KEY, "
           "valor TEXT, "
           "numero_conta INTEGER");
-      await db.execute("CREATE TABLE trf("
-          "idTrans INTEGER PRIMARY KEY, "
-          "valor TEXT, "
-          "numero_conta INTEGER");
     }, version: 2);
   });
 }
