@@ -60,21 +60,21 @@ Future<List<Contato>> findAll() {
 
 Future<List<Transferencia>> findAllTransfer() {
   return createDatabase().then((db) async {
-    final a = await db.query("transferencias");
-    print(a);
-    return [];
+    // final a = await db.query("transferencias");
+    // print(a);
+    // return [];
 
-    // return db.query("transferencias").then((maps) {
-    //   final List<Transferencia> transferencias = [];
-    //   for (Map<String, dynamic> map in maps) {
-    //     final Transferencia transferencia = Transferencia(
-    //       map["idTrans"],
-    //       map["valor"],
-    //       map["numero_conta"],
-    //     );
-    //     transferencias.add(transferencia);
-    //   }
-    //   return transferencias;
-    // });
+    return db.query("transferencias").then((maps) {
+      final List<Transferencia> transferencias = [];
+      for (Map<String, dynamic> map in maps) {
+        final Transferencia transferencia = Transferencia(
+          map["idTrans"],
+          map["valor"],
+          map["numero_conta"],
+        );
+        transferencias.add(transferencia);
+      }
+      return transferencias;
+    });
   });
 }

@@ -8,7 +8,6 @@ class ListaContatos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    saveContato(Contato(5, "Xande", 1111));
     return Scaffold(
       appBar: AppBar(
         title: Text(
