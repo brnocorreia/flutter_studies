@@ -7,7 +7,6 @@ import 'package:bytebank/screens/dashboard/dashboard.dart';
 
 void main() {
   runApp(BytebankApp());
-  saveTransfer(Transferencia(1, 100.0, 1000));
 }
 
 // saveTransfer(Transferencia(1, 100.0, 1000)).then((id) {
