@@ -56,10 +56,10 @@ class ListaTransferencias extends StatelessWidget {
                 final List<Transferencia>? transferencias = snapshot.data;
                 return ListView.builder(
                   itemBuilder: (context, index) {
-                    final Transferencia transferencia = transferencias![index];
-                    return ItemTransferencia(transferencia);
+                    final Transferencia? transferencia = transferencias?[index];
+                    return ItemTransferencia(transferencia!);
                   },
-                  itemCount: transferencias!.length,
+                  itemCount: transferencias?.length ?? 0,
                 );
             }
             return Text("Erro desconhecido");

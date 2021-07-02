@@ -3,42 +3,50 @@ import 'package:bytebank/models/transferencia.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-Future<Database> createDatabase() {
+Future<Database> createDatabaseContatos() {
   return getDatabasesPath().then((dbPath) {
     final String path = join(dbPath, "bytebank.db");
-    return openDatabase(path, onCreate: (db, version) async {
-      await db.execute("CREATE TABLE contatos("
+    return openDatabase(path, onCreate: (dbcontato, version) async {
+      await dbcontato.execute("CREATE TABLE contatos("
           "id INTEGER PRIMARY KEY, "
           "nome TEXT, "
           "numero_conta INTEGER)");
-      await db.execute("CREATE TABLE transferencias("
-          "idTrans INTEGER PRIMARY KEY, "
+    }, version: 2);
+  });
+}
+
+Future<Database> createDatabaseTransfer() async {
+  return getDatabasesPath().then((dbPath) {
+    final String path = join(dbPath, "bytebank.db");
+    return openDatabase(path, onCreate: (dbtransfer, version) async {
+      await dbtransfer.execute("CREATE TABLE transferencia("
+          "id INTEGER PRIMARY KEY, "
           "valor TEXT, "
-          "numero_conta INTEGER");
+          "numero_conta INTEGER)");
     }, version: 2);
   });
 }
 
 Future<int> saveContato(Contato contato) {
-  return createDatabase().then((db) {
+  return createDatabaseContatos().then((dbcontato) {
     final Map<String, dynamic> contatoMap = Map();
     contatoMap["nome"] = contato.nome;
     contatoMap["numero_conta"] = contato.numeroConta;
-    return db.insert("contatos", contatoMap);
+    return dbcontato.insert("contatos", contatoMap);
   });
 }
 
 Future<int> saveTransfer(Transferencia transferencia) {
-  return createDatabase().then((db) {
+  return createDatabaseTransfer().then((dbtransfer) {
     final Map<String, dynamic> transferenciaMap = Map();
     transferenciaMap["valor"] = transferencia.valor;
     transferenciaMap["numero_conta"] = transferencia.numeroConta;
-    return db.insert("transferencias", transferenciaMap);
+    return dbtransfer.insert("transferencias", transferenciaMap);
   });
 }
 
 Future<List<Contato>> findAll() {
-  return createDatabase().then((db) {
+  return createDatabaseContatos().then((db) {
     return db.query("contatos").then((maps) {
       final List<Contato> contatos = [];
       for (Map<String, dynamic> map in maps) {
@@ -55,7 +63,7 @@ Future<List<Contato>> findAll() {
 }
 
 Future<List<Transferencia>> findAllTransfer() {
-  return createDatabase().then((db) async {
+  return createDatabaseTransfer().then((db) async {
     // final a = await db.query("transferencias");
     // print(a);
     // return [];
