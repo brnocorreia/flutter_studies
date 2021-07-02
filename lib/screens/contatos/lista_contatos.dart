@@ -3,9 +3,15 @@ import 'package:bytebank/models/contato.dart';
 import 'package:bytebank/screens/contatos/formulario_contatos.dart';
 import 'package:flutter/material.dart';
 
-class ListaContatos extends StatelessWidget {
+class ListaContatos extends StatefulWidget {
   // final List<Contato> contatos = [];
 
+  State<StatefulWidget> createState() {
+    return ListaContatosState();
+  }
+}
+
+class ListaContatosState extends State<ListaContatos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,15 +65,9 @@ class ListaContatos extends StatelessWidget {
             return Text("Erro desconhecido");
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => FormularioContatos(),
-                ),
-              )
-              .then((contatoCriado) => debugPrint(contatoCriado.toString()));
-        },
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => FormularioContatos()))
+            .then((value) => setState(() {})),
         child: Icon(Icons.add),
       ),
     );

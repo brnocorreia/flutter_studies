@@ -1,4 +1,5 @@
 import 'package:bytebank/components/editor.dart';
+import 'package:bytebank/database/app_database.dart';
 import 'package:bytebank/models/contato.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +60,8 @@ class FormularioContatosState extends State<FormularioContatos> {
                         if (numeroConta != null) {
                           final Contato contatoCriado =
                               Contato(0, nome, numeroConta);
-                          Navigator.pop(context, contatoCriado);
+                          saveContato(contatoCriado)
+                              .then((id) => Navigator.pop(context));
                         }
                       }),
                 ),
