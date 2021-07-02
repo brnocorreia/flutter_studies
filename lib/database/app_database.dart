@@ -3,33 +3,29 @@ import 'package:bytebank/models/transferencia.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-Future<Database> createDatabaseContatos() {
-  return getDatabasesPath().then((dbPath) {
-    final String path = join(dbPath, "bytebank.db");
-    return openDatabase(
-      path,
-      onCreate: (dbcontato, version) async {
-        await dbcontato.execute("CREATE TABLE contatos("
-            "id INTEGER PRIMARY KEY, "
-            "nome TEXT, "
-            "numero_conta INTEGER)");
-      },
-      version: 1,
-      // onDowngrade: onDatabaseDowngradeDelete,
-    );
-  });
+Future<Database> createDatabaseContatos() async {
+  final String path = join(await getDatabasesPath(), "bytebank.db");
+  return openDatabase(
+    path,
+    onCreate: (dbcontato, version) {
+      dbcontato.execute("CREATE TABLE contatos("
+          "id INTEGER PRIMARY KEY, "
+          "nome TEXT, "
+          "numero_conta INTEGER)");
+    },
+    version: 1,
+    // onDowngrade: onDatabaseDowngradeDelete,
+  );
 }
 
 Future<Database> createDatabaseTransfer() async {
-  return getDatabasesPath().then((dbPath) {
-    final String path = join(dbPath, "bytebank.db");
-    return openDatabase(path, onCreate: (dbtransfer, version) async {
-      await dbtransfer.execute("CREATE TABLE transferencia("
-          "id INTEGER PRIMARY KEY, "
-          "valor TEXT, "
-          "numero_conta INTEGER)");
-    }, version: 1);
-  });
+  final String path = join(await getDatabasesPath(), "bytebank.db");
+  return openDatabase(path, onCreate: (dbtransfer, version) {
+    dbtransfer.execute("CREATE TABLE transferencia("
+        "id INTEGER PRIMARY KEY, "
+        "valor TEXT, "
+        "numero_conta INTEGER)");
+  }, version: 1);
 }
 
 Future<int> saveContato(Contato contato) {
@@ -54,11 +50,11 @@ Future<List<Contato>> findAll() {
   return createDatabaseContatos().then((dbcontato) {
     return dbcontato.query("contatos").then((maps) {
       final List<Contato> contatos = [];
-      for (Map<String, dynamic> map in maps) {
+      for (Map<String, dynamic> row in maps) {
         final Contato contato = Contato(
-          map["id"],
-          map["nome"],
-          map["numero_conta"],
+          row["id"],
+          row["nome"],
+          row["numero_conta"],
         );
         contatos.add(contato);
       }
@@ -75,11 +71,11 @@ Future<List<Transferencia>> findAllTransfer() {
 
     return db.query("transferencias").then((maps) {
       final List<Transferencia> transferencias = [];
-      for (Map<String, dynamic> map in maps) {
+      for (Map<String, dynamic> row in maps) {
         final Transferencia transferencia = Transferencia(
-          map["idTrans"],
-          map["valor"],
-          map["numero_conta"],
+          row["idTrans"],
+          row["valor"],
+          row["numero_conta"],
         );
         transferencias.add(transferencia);
       }
