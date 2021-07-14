@@ -28,51 +28,63 @@ class DashboardInicialState extends State<DashboardInicial> {
                     borderRadius: BorderRadius.circular(60.0),
                     child: Image.asset("images/bytebank_logo.png")),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Botao(
-                    name: "Contatos",
-                    onTap: () {
-                      Navigator.of(context).push(
-                        (MaterialPageRoute(
-                          builder: (context) => ListaContatos(),
-                        )),
-                      );
-                    },
-                  ),
-                  Botao(
-                    name: "Transferências",
-                    icons: Icons.list,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        (MaterialPageRoute(
-                          builder: (context) => ListaTransferencias(),
-                        )),
-                      );
-                    },
-                  ),
-                ],
+              Container(
+                height: 120.0,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Botao(
+                      "Contacts",
+                      Icons.people,
+                      onClick: () {
+                        _showListaContatos(context);
+                      },
+                    ),
+                    Botao("Transfer Feed", Icons.description, onClick: () {
+                      _showListaTransferencias(context);
+                    }),
+                    Botao("My Balance", Icons.account_balance, onClick: () {
+                      print("My Balance was clicked");
+                    }),
+                  ],
+                ),
               )
             ],
           ),
         ));
   }
+
+  void _showListaContatos(BuildContext context) {
+    Navigator.of(context).push(
+      (MaterialPageRoute(
+        builder: (context) => ListaContatos(),
+      )),
+    );
+  }
+
+  void _showListaTransferencias(BuildContext context) {
+    Navigator.of(context).push(
+      (MaterialPageRoute(
+        builder: (context) => ListaTransferencias(),
+      )),
+    );
+  }
+
+  // void _showSaldo(BuildContext context) {
+  //   Navigator.of(context).push(
+  //     (MaterialPageRoute(
+  //       builder: (context) => ListaSaldo(),
+  //     )),
+  //   );
+  // }
 }
 
 class Botao extends StatelessWidget {
-  const Botao({
-    Key? key,
-    this.name = "Nome",
-    this.width = 150.0,
-    this.icons = Icons.people,
-    required this.onTap,
-  }) : super(key: key);
-
   final String name;
-  final double width;
-  final IconData icons;
-  final Function() onTap;
+  final IconData icon;
+  final Function onClick;
+
+  Botao(this.name, this.icon, {required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -83,17 +95,17 @@ class Botao extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         color: Theme.of(context).primaryColor,
         child: InkWell(
-          onTap: onTap,
+          onTap: () => onClick(),
           child: Container(
             padding: EdgeInsets.all(8.0),
             height: 100,
-            width: width,
+            width: 150.0,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Icon(
-                    icons,
+                    icon,
                     color: Colors.white,
                     size: 24.0,
                   ),

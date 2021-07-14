@@ -1,12 +1,13 @@
-class Transferencia {
-  final int idTrans;
-  final double valor;
-  final int numeroConta;
+import 'contato.dart';
 
-  Transferencia(this.idTrans, this.valor, this.numeroConta);
+class Transferencia {
+  final double valor;
+  final Contato contato;
+
+  Transferencia(this.valor, this.contato);
 
   @override
   String toString() {
-    return 'Transferencia{idTrans: $idTrans, valor: $valor, numeroConta: $numeroConta}';
+    return 'Transferencia{valor: $valor, contato: $contato}';
   }
 }

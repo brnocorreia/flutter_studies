@@ -1,4 +1,4 @@
-import 'package:bytebank/database/app_database.dart';
+import 'package:bytebank/database/dao/contato_dao.dart';
 import 'package:bytebank/models/contato.dart';
 import 'package:bytebank/screens/contatos/formulario_contatos.dart';
 import 'package:flutter/material.dart';
@@ -12,18 +12,20 @@ class ListaContatos extends StatefulWidget {
 }
 
 class ListaContatosState extends State<ListaContatos> {
+  final ContatoDao _dao = ContatoDao();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Contatos",
+          "Contacts",
         ),
       ),
       body: FutureBuilder<List<Contato>>(
           initialData: [],
-          future:
-              Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
+          future: Future.delayed(Duration(seconds: 1))
+              .then((value) => _dao.findAll()),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -40,7 +42,7 @@ class ListaContatosState extends State<ListaContatos> {
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
-                          "Carregando",
+                          "Loading",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
@@ -62,7 +64,7 @@ class ListaContatosState extends State<ListaContatos> {
                   itemCount: contatos!.length,
                 );
             }
-            return Text("Erro desconhecido");
+            return Text("Unknown Error");
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context)

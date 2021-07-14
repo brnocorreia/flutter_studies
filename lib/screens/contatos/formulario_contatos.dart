@@ -1,12 +1,12 @@
 import 'package:bytebank/components/editor.dart';
-import 'package:bytebank/database/app_database.dart';
+import 'package:bytebank/database/dao/contato_dao.dart';
 import 'package:bytebank/models/contato.dart';
 import 'package:flutter/material.dart';
 
-const _tituloAppBar = "Novo Contato";
-const _rotuloCampoNome = "Nome Completo";
-const _dicaCampoNome = "Ex.: Bruno";
-const _rotuloCampoNumeroConta = "Número da Conta";
+const _tituloAppBar = "New Contact";
+const _rotuloCampoNome = "Complete Name";
+const _dicaCampoNome = "E.g.: Bruno";
+const _rotuloCampoNumeroConta = "Account Number";
 const _dicaCampoNumeroConta = "0000";
 
 class FormularioContatos extends StatefulWidget {
@@ -21,6 +21,7 @@ class FormularioContatosState extends State<FormularioContatos> {
   final TextEditingController _controladorCampoNumeroConta =
       TextEditingController();
   final TextEditingController _controladorCampoNome = TextEditingController();
+  final ContatoDao _dao = ContatoDao();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class FormularioContatosState extends State<FormularioContatos> {
                 child: SizedBox(
                   width: double.maxFinite,
                   child: ElevatedButton(
-                      child: Text("Criar",
+                      child: Text("Create",
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold)),
                       onPressed: () {
@@ -60,7 +61,8 @@ class FormularioContatosState extends State<FormularioContatos> {
                         if (numeroConta != null) {
                           final Contato contatoCriado =
                               Contato(0, nome, numeroConta);
-                          saveContato(contatoCriado)
+                          _dao
+                              .save(contatoCriado)
                               .then((id) => Navigator.pop(context));
                         }
                       }),
