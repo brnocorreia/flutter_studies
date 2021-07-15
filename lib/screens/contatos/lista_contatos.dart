@@ -25,7 +25,7 @@ class ListaContatosState extends State<ListaContatos> {
       ),
       body: FutureBuilder<List<Contato>>(
           initialData: [],
-          future: Future.delayed(Duration(seconds: 1))
+          future: Future.delayed(Duration(milliseconds: 500))
               .then((value) => _dao.findAll()),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {

@@ -11,7 +11,8 @@ class ListaTransferencias extends StatelessWidget {
         title: Text('Transactions'),
       ),
       body: FutureBuilder<List<Transferencia>>(
-          future: findAll(),
+          future: Future.delayed(Duration(milliseconds: 500))
+              .then((value) => findAll()),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
