@@ -8,7 +8,7 @@ import 'package:bytebank/screens/dashboard/dashboard.dart';
 
 void main() {
   runApp(BytebankApp());
-  findAll();
+  findAll().then((transactions) => print('new transactions $transactions'));
 }
 
 // saveTransfer(Transferencia(1, 100.0, 1000)).then((id) {
